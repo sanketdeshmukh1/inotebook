@@ -86,4 +86,12 @@ router.post('/login',[
 
 });
 
+
+// ENDPOINT login using post api/auth/getuser
+router.post('/getuser',[
+    body('email','Please enter a valid email').isEmail(),
+    body('password','password cannot be kept blank').exists(),
+],async (req,res)=>{
+
+})
 module.exports=router
