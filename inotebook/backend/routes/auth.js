@@ -1,7 +1,10 @@
 const express=require('express');
 const User = require('../Models/User');
+var bcrypt = require('bcryptjs');
 const router=express.Router();
+const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
+const JWT_SECRET='sanketisagoodboy';// secrete key to sign webtoken
 
 // create a user usin post api/auth/createuser
 router.post('/createuser',[
@@ -21,15 +24,21 @@ let user= await User.findOne({email:req.body.email});
 if(user){
     return res.status(400).json({error:"Sorry, user with this email is already present"})
 }
+const salt=await bcrypt.genSalt(10)// genrate salt 10 is saltround value
+const secPass=await bcrypt.hash(req.body.password,salt) // genrate hash
 
     user=await User.create({ 
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password
-      })
-      res.json(user)
-      //.then(user => res.json(user))
-    
+        password: secPass //store hash in db instead of plain text
+      }) 
+
+      const data={
+              id:user.id
+      }
+      const authtoken = jwt.sign(data,JWT_SECRET);//sign the token with secrete key
+      res.json({authtoken})//we will send token as response
+
 } catch (error) {
     console.error(error.message)
     res.status(500).send("error occured in our app")
