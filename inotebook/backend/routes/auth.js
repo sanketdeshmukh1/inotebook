@@ -3,6 +3,7 @@ const User = require('../Models/User');
 var bcrypt = require('bcryptjs');
 const router=express.Router();
 const jwt = require('jsonwebtoken');
+var fetchuser=require('../Middleware/fetchuser')
 const { body, validationResult } = require('express-validator');
 const JWT_SECRET='sanketisagoodboy';// secrete key to sign webtoken
 
@@ -34,7 +35,9 @@ const secPass=await bcrypt.hash(req.body.password,salt) // genrate hash
       }) 
 
       const data={
-              id:user.id
+        user: {
+            id: user.id
+          }
       }
       const authtoken = jwt.sign(data,JWT_SECRET);//sign the token with secrete key
       res.json({authtoken})//we will send token as response
@@ -71,7 +74,9 @@ router.post('/login',[
             res.status(400).json({error:"Invalid Credentials"})
         }
         const data={
-            id:user.id
+            user: {
+                id: user.id
+              }
     }
     const authtoken = jwt.sign(data,JWT_SECRET);//sign the token with secrete key
     res.json({authtoken})//we will send token as response
@@ -87,11 +92,34 @@ router.post('/login',[
 });
 
 
-// ENDPOINT login using post api/auth/getuser
-router.post('/getuser',[
-    body('email','Please enter a valid email').isEmail(),
-    body('password','password cannot be kept blank').exists(),
-],async (req,res)=>{
+// ENDPOINT   post api/auth/getuser
+router.post('/getuser',
+fetchuser,
+async (req,res)=>{
+    try {
+        console.log("req.user.id")
+         userId=req.user.id;
+        const user= await User.findById(userId).select("-password")
+        res.send(user)
+    } catch (error) {
+        
+        console.error(error.message)
+        res.status(500).send("error occured in our app 22")
+    }
+
 
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
 module.exports=router
