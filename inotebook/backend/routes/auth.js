@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const JWT_SECRET='sanketisagoodboy';// secrete key to sign webtoken
 
-// create a user usin post api/auth/createuser
+// ENDPOINT create a user using post api/auth/createuser
 router.post('/createuser',[
     body('name','Name should contain atleast 3 letter').isLength({min:3}),
     body('email','EMail should be in proper format').isEmail(),
@@ -44,6 +44,46 @@ const secPass=await bcrypt.hash(req.body.password,salt) // genrate hash
     res.status(500).send("error occured in our app")
 }
     
+});
+
+// ENDPOINT login using post api/auth/login
+router.post('/login',[
+    body('email','Please enter a valid email').isEmail(),
+    body('password','password cannot be kept blank').exists(),
+],async (req,res)=>{
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+     const {email,password}=req.body;
+     try {
+         //logic for checking whteher there is any user with the email entered
+        let user=await User.findOne({email});
+        if(!user){
+
+            res.status(400).json({error:"Invalid Credentials"})
+
+        }//if
+         //logic for checking whether  
+        const passwordCompare= await bcrypt.compare(password,user.password);
+        if(!passwordCompare){
+            res.status(400).json({error:"Invalid Credentials"})
+        }
+        const data={
+            id:user.id
+    }
+    const authtoken = jwt.sign(data,JWT_SECRET);//sign the token with secrete key
+    res.json({authtoken})//we will send token as response
+
+
+
+     } catch (error) {
+         console.error(error.message)
+    res.status(500).send("error occured in our app")
+     }
+
+
 });
 
 module.exports=router
