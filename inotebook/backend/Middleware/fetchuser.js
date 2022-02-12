@@ -10,7 +10,7 @@ const fetchuser = (req, res, next) => {
     try {       
         
         const data = jwt.verify(token, JWT_SECRET);//this fn will return payload
-
+ 
         req.user = data.user;
 
         next();

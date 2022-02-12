@@ -44,7 +44,53 @@ body('tag','tag should contain atleast 4 letter').isLength({min:4})
         res.status(500).send("error occured in our [addnote] notes.js")
     }
 
+
   })
+
+
+
   
+// // ENDPOINT update the notes using put request api/notes/updatenote/:id
+router.put('/updatenote/:id', fetchuser, async (req,res)=>{
+
+   const {title,description,tag}=req.body;
+   const newNote={};
+   if(title){newNote.title=title}
+   if(description){newNote.description=description}
+   if(tag){newNote.tag=tag}
+    
+   //finding a note to be update
+   let note1= await Notes.findById(req.params.id);
+   //if note is not available then send  not found
+   
+   if(!note1){ 
+      return res.status(404).send("not found")
+    }
+    //updation is allow to one who owns that note 
+   if(note1.user.toString() !== req.user.id){
+    return res.status(401).send("not authorize")
+   }
+
+   note1=await Notes.findByIdAndUpdate(req.params.id,{$set:newNote},{new:true})
+res.json({note1});
+
+    })   
+  
+    router.delete('/deletenote/:id', fetchuser, async (req,res)=>{
+   //finding a note to be deleted 
+   let note1= await Notes.findById(req.params.id);
+   if(!note1){ 
+      return res.status(404).send("not found")
+    }
+    //deletion is allow to one who owns that note 
+   if(note1.user.toString() !== req.user.id){
+    return res.status(401).send("not authorize")
+   }
+
+   note1=await Notes.findByIdAndDelete(req.params.id)
+res.json({"msg":"successfully deleted"});
+
+    })
+
 
 module.exports=router
