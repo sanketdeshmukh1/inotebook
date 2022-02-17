@@ -17,7 +17,7 @@ function App() {
     <NoteState>
     <Router>
     <Navbar/>
-    <Alert message="this is alertbox1"/>
+    <Alert message="this is alertbox123"/>
     <div className="container">
     <Switch>
 

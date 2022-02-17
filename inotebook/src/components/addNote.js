@@ -5,14 +5,14 @@ import { useState } from 'react'
 const AddNote = () => {
     const context = useContext(noteContext)  //usecontext allows to use context api
     const {addNote1}=context
-    const [note, setNote] = useState({title:"",description:"",tag:"grneral"})
+    const [note1, setNote] = useState({title:"",description:"",tag:"grneral"})
 
     const handleClick=(e)=>{
-        e.preventDefault()
-addNote1(note.title,note.description,note.tag);
+        e.preventDefault()  
+addNote1(note1.title,note1.description,note1.tag);
     }
     const handleChange=(e)=>{
-        setNote({...note,[e.target.name]:e.target.value})
+        setNote({...note1,[e.target.name]:e.target.value})
     }
   return (
     <div>
@@ -21,9 +21,8 @@ addNote1(note.title,note.description,note.tag);
       <form>
   <div className="form-group">
     <label htmlFor="title">Title</label>
-    <input type="text" className="form-control" id="title" name="title" aria-describedby="emailHelp" 
+    <input type="text" className="form-control" id="title" name="title" aria-describedby="emailHelp"
     onChange={handleChange} placeholder="Enter title"/>
-
   </div>
   <div className="form-group">
     <label htmlFor="desc">Description</label>
