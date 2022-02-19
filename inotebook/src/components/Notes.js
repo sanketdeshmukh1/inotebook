@@ -1,12 +1,13 @@
 import React from 'react'
 import noteContext from '../context/notes/NoteContext'
-import { useContext } from 'react'
+import { useContext,useEffect } from 'react'
 import Notesitem from './notesitem'
 import AddNote from './addNote' 
 
 const Notes = () => {
     const context = useContext(noteContext)  //usecontext allows to use context api
     const {notes,addNotes}=context
+    
 
   return (
       <>
