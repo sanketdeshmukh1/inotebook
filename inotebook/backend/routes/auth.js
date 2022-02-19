@@ -98,6 +98,7 @@ fetchuser,   //fetchuser is middleware/function which return id of the user
 async (req,res)=>{
     try {
          userId=req.user.id;
+         console.log(req.user.id)
         const user= await User.findById(userId).select("-password")//here we are finding user from its id
         res.send(user)
     } catch (error) {
