@@ -6,7 +6,10 @@ import AddNote from './addNote'
 
 const Notes = () => {
     const context = useContext(noteContext)  //usecontext allows to use context api
-    const {notes,addNotes}=context
+    const {notes,addNotes,fetchNotes}=context
+    useEffect(() => {
+        fetchNotes()
+    }, [])
     
 
   return (
