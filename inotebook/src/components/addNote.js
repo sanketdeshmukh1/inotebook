@@ -28,11 +28,12 @@ addNote1(note1.title,note1.description,note1.tag);
     <label htmlFor="desc">Description</label>
     <input type="text" className="form-control" id="desc" name="description" onChange={handleChange} placeholder="description"/>
   </div>
-  <div className="form-group form-check">
-    <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-    <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
+  <div className="form-group">
+    <label htmlFor="tag">Tag</label>
+    <input type="text" className="form-control" id="tag" name="tag" onChange={handleChange} placeholder="Tag"/>
   </div>
-  <button type="submit" className="btn btn-primary"  onClick={handleClick}>Submit</button>
+  
+  <button type="submit" className="btn btn-primary my-3"  onClick={handleClick}>Submit</button>
 </form>
 </div>
     </div>

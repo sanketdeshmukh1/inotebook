@@ -6,24 +6,7 @@ import Notes from "../../components/Notes";
 const NoteState = (props)=>{
   const host="http://localhost:4000"
 
-   const intialnotes=[ {
-    "_id": "620784b9e8c10ea1c4505dd9",
-    "user": "6206a1688920d2c39b6e87e7",
-    "title": "latest1111",
-    "description": "1111fdgbcbgblatestnvbn",
-    "tag": "111sgdfbfgbhflatestv",
-    "date": "2022-02-12T09:58:17.307Z",
-    "__v": 0
-  },
-  {
-    "_id": "62078536e8c10ea1c4505ddd",
-    "user": "6206a1688920d2c39b6e87e7",
-    "title": "auction22",
-    "description": "auction22",
-    "tag": "auction22",
-    "date": "2022-02-12T10:00:22.500Z",
-    "__v": 0
-  }]
+   const intialnotes=[]
   
  const [notes, setNotes] = useState(intialnotes)
 
@@ -38,7 +21,8 @@ const NoteState = (props)=>{
     },
     body: JSON.stringify({title,description,tag}) // body data type must match "Content-Type" header
   });
-   // setNotes(notes.concat())
+  const noteapi = await response.json();
+  setNotes(notes.concat(noteapi))
  }
 
  //fetch all notes
@@ -48,7 +32,7 @@ const NoteState = (props)=>{
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     headers: {
       'Content-Type': 'application/json',
-      'auth-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjIwNzlhZWIzYTVlNTM4YjU5YTQ1MjBhIn0sImlhdCI6MTY0NDY2NTU3OX0.SNlfqzkw6_mzrc7rNBykX0bwVH-WIQoM246PrCKEVUU'
+      'auth-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjIwNmExNjg4OTIwZDJjMzliNmU4N2U3In0sImlhdCI6MTY0NDY1OTc4NH0.k-e4rJwDhazTGY1UZV2UYQlqEcO-12QMlbwXFqbKLVs'
     }
   
   })
@@ -88,7 +72,7 @@ const NoteState = (props)=>{
     method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
     headers: {
       'Content-Type': 'application/json',
-      'auth-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjIwNzlhZWIzYTVlNTM4YjU5YTQ1MjBhIn0sImlhdCI6MTY0NDY2NTU3OX0.SNlfqzkw6_mzrc7rNBykX0bwVH-WIQoM246PrCKEVUU'
+      'auth-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjIwNmExNjg4OTIwZDJjMzliNmU4N2U3In0sImlhdCI6MTY0NDY1OTc4NH0.k-e4rJwDhazTGY1UZV2UYQlqEcO-12QMlbwXFqbKLVs'
     },
 
   });
