@@ -2,7 +2,7 @@ import React from 'react'
 import noteContext from '../context/notes/NoteContext'
 import { useContext } from 'react'
 const Notesitem = (props) => {
-    const {notes11}=props
+    const {notes11,updateNote}=props
     const context = useContext(noteContext)  //usecontext allows to use context api
     const {deleteNote}=context
   return (
@@ -14,7 +14,7 @@ const Notesitem = (props) => {
     <i className="fa-solid fa-trash-can mx-3" onClick={()=>{
        deleteNote(notes11._id);
     }}></i>
-    <i className="fa-solid fa-pen-to-square mx-3"></i>
+ <i className="far fa-edit mx-2" onClick={()=>{updateNote(notes11)}}></i>
     </div>
   </div>
 </div>  
