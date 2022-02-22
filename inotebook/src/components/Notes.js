@@ -23,13 +23,16 @@ const Notes = () => {
         setNote({eid:currentNote._id, etitle: currentNote.title, edescription: currentNote.description, etag:currentNote.tag})
     }
 
+    const handleClick=()=>{
+      editNote(note.eid,note.etitle,note.edescription,note.etag)
+      refClose.current.click();
+
+  }
+
+
     const handleChange=(e)=>{
 
         setNote({...note,[e.target.name]:e.target.value})
-    }
-    const handleClick=()=>{
-        ref.current.click();
-        editNote(note.eid,note.etitle,note.edescription,note.etag)
     }
 
 
@@ -72,17 +75,22 @@ const Notes = () => {
 </form>
       </div>
       <div className="modal-footer">
-        <button ref={refClose} type="button" className="btn btn-secondary" data-dismiss="modal" onClick={handleClick}>Close</button>
-        <button type="button" className="btn btn-primary" onClick={handleClick}>Update note</button>
+        <button ref={refClose} type="button" className="btn btn-secondary" data-bs-dismiss="modal" >Close</button>
+        <button disabled={note.edescription.length<7 || note.etitle.length<3 || note.etag.length<4} type="button" className="btn btn-primary" onClick={handleClick}>Update note</button>
+                            
       </div>
     </div>
   </div>
 </div>
-<div classNameName="row my-3">
-      <h2>Your12 notes</h2>
+<div classNameName="row my-2">
+      <h2>Your notes</h2>
+      <div className="container">
+        {notes.length===0 &&'Sorry, There are no notes to display'}
+        </div>
       {notes.map((note)=>{
           return <Notesitem updateNote={updateNote} notes11={note}/>
-      },)}
+      })}
+
       </div>
       </>
   )

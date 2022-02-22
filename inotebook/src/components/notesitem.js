@@ -6,7 +6,7 @@ const Notesitem = (props) => {
     const context = useContext(noteContext)  //usecontext allows to use context api
     const {deleteNote}=context
   return (
-      <div className="col-md-4">
+      <div className="col-md-3">
    <div className="card my-3" >
   <div className="card-body">
     <h5 className="card-title ">{notes11.title}</h5>
