@@ -11,8 +11,8 @@ const AddNote = () => {
         e.preventDefault()  
 addNote1(note1.title,note1.description,note1.tag);
 setNote({title:"",description:"",tag:"grneral"})
-
     }
+    
     const handleChange=(e)=>{
         setNote({...note1,[e.target.name]:e.target.value})
     }

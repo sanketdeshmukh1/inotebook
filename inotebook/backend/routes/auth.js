@@ -55,6 +55,7 @@ router.post('/login',[
     body('password','password cannot be kept blank').exists(),
 ],async (req,res)=>{
 
+let sucess="false"
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -65,13 +66,13 @@ router.post('/login',[
         let user=await User.findOne({email});
         if(!user){
 
-            res.status(400).json({error:"Invalid Credentials"})
+            res.status(400).json({sucess,error:"Invalid Credentials"})
 
         }//if
          //logic for checking whether  
         const passwordCompare= await bcrypt.compare(password,user.password);
         if(!passwordCompare){
-            res.status(400).json({error:"Invalid Credentials"})
+            res.status(400).json({sucess,error:"Invalid Credentials"})
         }
         const data={
             user: {
@@ -79,7 +80,8 @@ router.post('/login',[
               }
     }
     const authtoken = jwt.sign(data,JWT_SECRET);//sign the token with secrete key
-    res.json({authtoken})//we will send token as response
+    sucess=true
+    res.json({sucess,authtoken})//we will send token as response
 
 
 
