@@ -82,8 +82,8 @@ let sucess="false"
               }
     }
     const authtoken = jwt.sign(data,JWT_SECRET);//sign the token with secrete key
-    sucess=true
-    res.json({authtoken})//we will send token as response
+    sucess="true"
+    res.json({sucess,authtoken})//we will send token as response
 
 
 

@@ -4,7 +4,8 @@ import { useHistory } from "react-router-dom";
 function Login() {
     const [credentials, setCredentials] = useState({email: "", password: ""}) 
   const history=useHistory();
-    const handleSubmit = async (e) => {
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch("http://localhost:4000/api/auth/login", {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -16,7 +17,13 @@ function Login() {
     const json = await response.json(); // parses JSON response into native JavaScript objects
     console.log(json);
     if(json.sucess){
-history.push("/signup")
+      console.log("login succesfull")
+      localStorage.setItem('token',json.authtoken);
+history.push("/")
+    }
+    else{
+      console.log("login failed")
+      history.push("/login")
     }
   }; //handlesubmit
 
@@ -28,6 +35,7 @@ history.push("/signup")
 
   return (
     <>
+    <div class="p-3 mb-2 bg-primary text-white my-3">Welcome to Login Page</div>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="email">Email address</label>

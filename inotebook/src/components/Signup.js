@@ -7,6 +7,7 @@ function Signup() {
   const history=useHistory();
   
   const handleSubmit = async (e) => {
+
     e.preventDefault();
     const {name,email,password,cpassword}=credentials;
     const response = await fetch("http://localhost:4000/api/auth/createuser", {
@@ -18,9 +19,16 @@ function Signup() {
     });
     const json = await response.json(); // parses JSON response into native JavaScript objects
     console.log(json);
-   
-    history.push("/about")
-   
+   if(json.sucess){
+    localStorage.setItem('token',json.authtoken);
+    history.push("/")
+    console.log("Signup successfull")
+   }
+   else{
+    console.log("Signup failed")
+    history.push("/signup")
+   }
+
 
   }; //handlesubmit
 

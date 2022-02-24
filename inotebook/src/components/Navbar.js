@@ -1,15 +1,20 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useLocation,
-   Link  } from "react-router-dom";
+   Link,  
+   useHistory} from "react-router-dom";
 
 export default function Navbar() {
+  let history=useHistory();
   let location = useLocation();
   useEffect(() => {
     console.log(location.pathname);
   },[Location]
   );
-
+const handleSubmit=()=>{
+  localStorage.removeItem('token')
+  history.push('/login')
+}
   return (
 <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
   <div className="container-fluid">
@@ -26,10 +31,11 @@ export default function Navbar() {
           <Link className={`nav-link ${location.pathname==="/about"?"active": ""}`}  to="/about">About</Link>
         </li>
         </ul> 
-        <form className="d-flex"> 
+       { 
+       !localStorage.getItem('token')? < form className="d-flex"> 
                     <Link className="btn btn-primary mx-1" to="/login" role="button">Login</Link>
                     <Link className="btn btn-primary mx-1" to="/signup" role="button">Signup</Link>
-                    </form>
+                    </form> :<button type="button" class="btn btn-primary" onClick={handleSubmit}>Logout</button>}
      </div>
   </div>
 </nav>
