@@ -14,16 +14,17 @@ router.post('/createuser',[
     body('password','password should contain atleast 4 letter').isLength({min:4}),
 ],async (req,res)=>{
 
+    let sucess="false"
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({sucess, errors: errors.array() });
     }
 //below we are checking whte=ther user with same email is already present or not
 try {
    
 let user= await User.findOne({email:req.body.email});
 if(user){
-    return res.status(400).json({error:"Sorry, user with this email is already present"})
+    return res.status(400).json({sucess,error:"Sorry, user with this email is already present"})
 }
 const salt=await bcrypt.genSalt(10)// genrate salt 10 is saltround value
 const secPass=await bcrypt.hash(req.body.password,salt) // genrate hash
@@ -40,11 +41,12 @@ const secPass=await bcrypt.hash(req.body.password,salt) // genrate hash
           }
       }
       const authtoken = jwt.sign(data,JWT_SECRET);//sign the token with secrete key
-      res.json({authtoken})//we will send token as response
+      sucess="true"
+      res.json({sucess,authtoken})//we will send token as response
 
 } catch (error) {
     console.error(error.message)
-    res.status(500).send("error occured in our app")
+    res.status(500).json({sucess,error:"Sorry, error occur in app"})
 }
     
 });
@@ -66,7 +68,7 @@ let sucess="false"
         let user=await User.findOne({email});
         if(!user){
 
-            res.status(400).json({sucess,error:"Invalid Credentials"})
+            res.status(400).json({error:"Invalid Credentials"})
 
         }//if
          //logic for checking whether  
@@ -81,7 +83,7 @@ let sucess="false"
     }
     const authtoken = jwt.sign(data,JWT_SECRET);//sign the token with secrete key
     sucess=true
-    res.json({sucess,authtoken})//we will send token as response
+    res.json({authtoken})//we will send token as response
 
 
 
